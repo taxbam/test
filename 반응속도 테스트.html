@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    h1 {text-align : center; color : green; font-size : 100px;}
+    div {text-align : center; font-size : 100px;}
+    input:active {box-shadow : 0px 0px 25px black;}
+    input:onclick {background : green;}
+</style>
+<h1>반응속도 테스트</h1>
+<hr>
+<script>
+    let rand = 0;
+    let click_val = 0;
+    let timer=0;
+    let btn= document.getElementById("btn1")
+    let before_second = 0;
+    let after_second = 0;
+    let before_millisecond = 0;
+    let after_millisecond = 0;
+    let check = 0;
+    let after_minute = 0;
+    let before_minute = 0;
+    let second = 0;
+
+    function rd() {
+        let x = Math.random()*4500+1000;
+        rand = Math.floor(x);
+        timer = setTimeout(change, rand);
+    }
+
+    function change() {
+        let text = document.getElementById("title");
+        click_val = 1;
+        btn1.style.background = "lightgreen";
+        btn1.value = "눌러!";
+        let date = new Date()
+        before_minute = date.getMinutes();
+        before_second = date.getSeconds();
+        before_millisecond = date.getMilliseconds();
+    }
+    
+    window.onkeydown = function keyboard(){
+        clk(); 
+    }
+
+    function reload(second) {
+        if (second > 0){
+            btn1.value = second + "초 후 다시 시작"
+            second--;
+            setTimeout(()=>{reload(second)}, 1000);
+        }
+        else {
+            location.reload();
+        }
+    }
+
+    function clk() {
+        let text = document.getElementById("title");
+        if (click_val ==0){
+            clearTimeout(timer);
+            text.innerHTML = "너무 일찍 눌렀습니다.";
+            btn1.style.background = "red";
+            reload(3);
+        }
+        else if (check == 1){
+
+        }
+        else {
+            let date = new Date()
+            after_minute = date.getMinutes()
+            after_second = date.getSeconds();
+            after_millisecond = date.getMilliseconds();
+            text.innerHTML = (after_minute - before_minute)*60000+(after_second - before_second)*1000 + after_millisecond - before_millisecond + "ms";
+            btn1.style.background = "white";
+            check = 1;
+            reload(3);
+        }
+    }
+
+
+    rd();
+</script>
+</head>
+<body>
+<form style="text-align: center;">
+    <Input onclick="clk()" type="button" id="btn1" value="멈춰~!" style="width: 100%; height: 300px; font-size: 50px;"></button>
+</form>
+<br>
+<div id="title">
+    초록색에 클릭!
+</div>
+<script>
+</script>
+</body>
+</html>
